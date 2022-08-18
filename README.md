@@ -7,4 +7,4 @@
   - SignalR with id for live update of shared list
   - Save to DB via SignalR
   - Cache already added stuff for fuzzy search
-  - Pull to refresh lists
+  - Pull to refresh lists until SignalR
