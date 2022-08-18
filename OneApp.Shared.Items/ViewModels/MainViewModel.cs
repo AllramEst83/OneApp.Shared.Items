@@ -32,26 +32,11 @@ namespace OneApp.Shared.Items.ViewModels
 
         public MainViewModel(IConnectivity connectivity)
         {
-            Items = new ObservableCollection<string>()
-            {
-                "Gurka",
-                "Tomater",
-                "Stövlar"
-            };
-            CheckedItems = new ObservableCollection<string>()  {
-                "Gurka",
-                "Tomater",
-                "Stövlar"
-            };
+            Items = new ObservableCollection<string>();
+            CheckedItems = new ObservableCollection<string>();
             this.connectivity = connectivity;
 
-            bool containsItems = Items.Count.Equals(0);
-            bool checkedItemsContainsItems = CheckedItems.Count > 0;
-
-            NoItemsTextIsVisible = containsItems;
-            ItemsListIsVisible = !containsItems;
-            ShowRemoveAllBtn = checkedItemsContainsItems;
-            CheckedListIsEmpty = !checkedItemsContainsItems;
+            ShowHideLists();
         }
 
         [RelayCommand]
@@ -71,6 +56,8 @@ namespace OneApp.Shared.Items.ViewModels
             Items.Add(Text);
 
             Text = string.Empty;
+
+            ShowHideLists();
         }
 
         [RelayCommand]
@@ -91,13 +78,7 @@ namespace OneApp.Shared.Items.ViewModels
                 checkedItems.Add(unCheckedItem);
                 Items.Remove(unCheckedItem);
 
-                bool containsItems = Items.Count.Equals(0);
-                NoItemsTextIsVisible = containsItems;
-                itemsListIsVisible = !containsItems;
-
-                bool checkedItemsContainsItems = CheckedItems.Count > 0;
-                ShowRemoveAllBtn = checkedItemsContainsItems;
-                CheckedListIsEmpty = !checkedItemsContainsItems;
+                ShowHideLists();
             }
         }
 
@@ -110,9 +91,7 @@ namespace OneApp.Shared.Items.ViewModels
                 items.Add(unCheckedItem);
                 CheckedItems.Remove(checkedItem);
 
-                bool checkedItemsContainsItems = CheckedItems.Count > 0;
-                ShowRemoveAllBtn = checkedItemsContainsItems;
-                CheckedListIsEmpty = !checkedItemsContainsItems;
+                ShowHideLists();
             }
         }
 
@@ -125,6 +104,17 @@ namespace OneApp.Shared.Items.ViewModels
                 CheckedListIsEmpty = true;
                 ShowRemoveAllBtn = false;
             }
+        }
+
+        private void ShowHideLists()
+        {
+            bool containsItems = Items.Count.Equals(0);
+            NoItemsTextIsVisible = containsItems;
+            ItemsListIsVisible = !containsItems;
+
+            bool checkedItemsContainsItems = CheckedItems.Count > 0;
+            ShowRemoveAllBtn = checkedItemsContainsItems;
+            CheckedListIsEmpty = !checkedItemsContainsItems;
         }
     }
 }
