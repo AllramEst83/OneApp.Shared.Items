@@ -1,4 +1,6 @@
-﻿namespace OneApp.Shared.Items;
+﻿using OneApp.Shared.Items.ViewModels;
+
+namespace OneApp.Shared.Items;
 
 public static class MauiProgram
 {
@@ -13,6 +15,11 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		return builder.Build();
+        builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
+
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<MainViewModel>();
+
+        return builder.Build();
 	}
 }

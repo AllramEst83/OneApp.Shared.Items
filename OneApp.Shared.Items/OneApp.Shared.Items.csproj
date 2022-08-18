@@ -15,7 +15,7 @@
 		<ApplicationTitle>OneApp.Shared.Items</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.oneapp.shared.items</ApplicationId>
+		<ApplicationId>com.kaywiberg.oneapp.shared.items</ApplicationId>
 		<ApplicationIdGuid>BA7B87AF-8124-4C6E-9C09-BE15BCE3A002</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -32,8 +32,8 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
-
+		<MauiIcon Include="Resources\AppIcon\one_app_unicorn.svg" Color="#FBC2FF" BaseSize="64,64"/>
+		
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
 
@@ -46,6 +46,10 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="CommunityToolkit.Mvvm" Version="8.0.0" />
 	</ItemGroup>
 
 </Project>
