@@ -14,3 +14,6 @@
   - Theme Editor (Spara valen)
   - En lista med listor (CRUD)
   - Lägg till bild på varan
+
+Bildlicenser:
+https://creativecommons.org/licenses/
