@@ -4,24 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    public partial class ListModel : ObservableObject
-    {
-        private int id;
-
-        public int Id
-        {
-            get => id;
-            set => SetProperty(ref id, value);
-        }
-
-        private string listName;
-
-        public string ListName
-        {
-            get => listName;
-            set => SetProperty(ref listName, value);
-        }
-    }
+   
     public partial class MainViewModel : ObservableObject
     {
         IConnectivity connectivity;
@@ -66,7 +49,27 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
+            //Check If list exists before routing
+
             await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={id}");
+        }
+    }
+    public partial class ListModel : ObservableObject
+    {
+        private int id;
+
+        public int Id
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
+
+        private string listName;
+
+        public string ListName
+        {
+            get => listName;
+            set => SetProperty(ref listName, value);
         }
     }
 }

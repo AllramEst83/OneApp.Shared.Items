@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OneApp.Shared.Items.MainPage"
              xmlns:viewmodel="clr-namespace:OneApp.Shared.Items.ViewModels"
-             x:DataType="viewmodel:MainViewModel">
+             x:DataType="viewmodel:MainViewModel"
+             Title="Home">
 
 
 
