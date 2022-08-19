@@ -5,111 +5,71 @@
              xmlns:viewmodel="clr-namespace:OneApp.Shared.Items.ViewModels"
              x:DataType="viewmodel:MainViewModel">
 
-    <Grid RowDefinitions="50, 5, Auto,2, Auto, Auto, Auto"
-          ColumnDefinitions=".75*, .25*"
-          Padding="10"
-          RowSpacing="10"
-          ColumnSpacing="10">
 
-        <Entry Placeholder="Enter stuff to buy :)"
-               Text="{Binding Text}"
-                Grid.Column="0"/>
 
-        <Button Text="Add"
-                Command="{Binding AddCommand}"
-                Grid.Column="1"/>
+    <!--<CollectionView
+        x:Name="CollectionOfListNames"
+        ItemsSource="{Binding ListNames}">
 
-        <Label
-                FontSize="15"
-                IsVisible="{Binding NoItemsTextIsVisible}"
-                Text="No stuff to buy."
-                HorizontalOptions="Center"
-                Grid.Row="2"
-                Grid.ColumnSpan="2"/>
+        <CollectionView.ItemTemplate>
+
+            <DataTemplate>
+                <Grid 
+                    x:DataType="viewmodel:ListModel"   
+                    ColumnDefinitions="Auto, Auto"  
+                    Padding="10"  
+                    RowSpacing="1"
+                    ColumnSpacing="10">
+
+                    <Label IsVisible="False" FontSize="15" Grid.Column="0" Text="{Binding Id}" />
+                    <Label  FontSize="15" Grid.Column="1" Text="{Binding ListName}" />
+                </Grid>
+            </DataTemplate>
+
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>-->
+    <Grid 
+        RowDefinitions="Auto, Auto, Auto, Auto">
         
-        <CollectionView Grid.Row="2" 
-                        Grid.ColumnSpan="2"
-                        ItemsSource="{Binding Items}"
-                        SelectionMode="None"
-                        IsVisible="{Binding ItemsListIsVisible}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type x:String}">
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"                                           
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DeleteCommand}"
-                                           CommandParameter="{Binding .}"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        
-                        <Grid Padding="0,5">
-                            <Frame>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer 
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=CheckCommand}"
-                                           CommandParameter="{Binding .}"/>
-                                </Frame.GestureRecognizers>
-                                <Label Text="{Binding .}"
-                                       FontSize="18"/>
-                            </Frame>
-                        </Grid>
-                    </SwipeView>
-                </DataTemplate>
+        <Label Padding="10,10" Grid.Row="0" Text="Shopping lists" FontAttributes="Bold" FontSize="18"/>
+        <Line Grid.Row="1" Background="Black" />
 
-            </CollectionView.ItemTemplate>
+        <ListView ItemsSource="{Binding ListNames}" Grid.Row="2" >
+            <ListView.ItemTemplate>
 
-        </CollectionView>
-        
-        <Line BackgroundColor="HotPink" Grid.Row="3" Grid.ColumnSpan="2"/>
-        
-        <CollectionView ItemsSource="{Binding CheckedItems}"
-                        SelectionMode="None"
-                        Grid.ColumnSpan="2"
-                        Grid.Row="4">
-
-            <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Padding="0,5">
-                        <Frame>
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer 
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=UncheckCommand}"
-                                           CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
 
-                            <Label
-                        Text="{Binding .}"
-                        TextDecorations="Strikethrough" 
-                        FontSize="18"/>
-                        </Frame>
-                    </Grid>
-                 
+                    <ViewCell>
+                        <Grid
+                        x:DataType="viewmodel:ListModel"    
+                        Padding="10"  
+                        RowSpacing="1"
+                        ColumnSpacing="10">
+
+                            <Label FontSize="15" Text="{Binding ListName}" >
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListCommand}"
+                                        CommandParameter="{Binding Id}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
+                    </ViewCell>
+
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-            
-            
-        </CollectionView>
 
-        <Label
-                FontSize="15"
-                IsVisible="{Binding CheckedListIsEmpty}"
-                Text="All done, Great job!"
-                HorizontalOptions="Center"
-                Grid.Row="5"
-                Grid.ColumnSpan="2"/>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Line Grid.Row="3" Background="Black" />
 
-        <Button Text="Remove all checked items"
-                Command="{Binding RemoveAllCommand}"
-                Grid.Row="6"
-                   HorizontalOptions="Center"
-                Grid.ColumnSpan="2"
-                IsVisible="{Binding ShowRemoveAllBtn}"/>
-
+        <Label Padding="10,10" Grid.Row="4" Text="Add Shopping list" FontSize="18" BackgroundColor="LightGrey">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddNewListCommand}">
+                    
+                </TapGestureRecognizer>                
+            </Label.GestureRecognizers>
+        </Label>
     </Grid>
 
-
-
-    
 </ContentPage>

@@ -4,117 +4,69 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
+    public partial class ListModel : ObservableObject
+    {
+        private int id;
 
-    //Todo - Bryt ut upprepande kod
+        public int Id
+        {
+            get => id;
+            set => SetProperty(ref id, value);
+        }
+
+        private string listName;
+
+        public string ListName
+        {
+            get => listName;
+            set => SetProperty(ref listName, value);
+        }
+    }
     public partial class MainViewModel : ObservableObject
     {
         IConnectivity connectivity;
 
         [ObservableProperty]
-        ObservableCollection<string> items;
-
-        [ObservableProperty]
-        ObservableCollection<string> checkedItems;
-
-        [ObservableProperty]
-        bool noItemsTextIsVisible = false;
-
-        [ObservableProperty]
-        bool checkedListIsEmpty = false; 
-
-        [ObservableProperty]
-        bool itemsListIsVisible = false;
-        [ObservableProperty]
-        bool showRemoveAllBtn = false;
-
-        [ObservableProperty]
-        string text;
+        ObservableCollection<ListModel> listNames;
 
         public MainViewModel(IConnectivity connectivity)
         {
-            Items = new ObservableCollection<string>();
-            CheckedItems = new ObservableCollection<string>();
+            ListNames = new ObservableCollection<ListModel>()
+            {
+                new ListModel(){ Id = 0, ListName = "Matlista"},
+                new ListModel(){ Id = 1, ListName = "Räkningar"},
+                new ListModel(){ Id = 2, ListName = "Att köpa idag"}
+            };
             this.connectivity = connectivity;
-
-            ShowHideLists();
         }
 
         [RelayCommand]
-        async Task Add()
+        async Task AddNewList()
         {
-            if (string.IsNullOrWhiteSpace(Text))
+            string newListName = await Shell.Current.DisplayPromptAsync("List name", "Add list name");
+            if (string.IsNullOrWhiteSpace(newListName))
             {
                 return;
             }
 
+            //Save to DB
+
+            ListNames.Add(new ListModel()
+            {
+                ListName = newListName
+            });
+        }
+
+        [RelayCommand]
+        async Task GoToList(int id)
+        {
             if (connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
                 return;
             }
 
-            Items.Add(Text);
-
-            Text = string.Empty;
-
-            ShowHideLists();
-        }
-
-        [RelayCommand]
-        void Delete(string item)
-        {
-            if (Items.Contains(item))
-            {
-                Items.Remove(item);
-            }
-        }
-
-        [RelayCommand]
-        void Check(string item)
-        {
-            var unCheckedItem = items.FirstOrDefault(x => x == item);
-            if (unCheckedItem is not null)
-            {
-                checkedItems.Add(unCheckedItem);
-                Items.Remove(unCheckedItem);
-
-                ShowHideLists();
-            }
-        }
-
-        [RelayCommand]
-        void Uncheck(string checkedItem)
-        {
-            var unCheckedItem = checkedItems.FirstOrDefault(x => x == checkedItem);
-            if (unCheckedItem is not null)
-            {
-                items.Add(unCheckedItem);
-                CheckedItems.Remove(checkedItem);
-
-                ShowHideLists();
-            }
-        }
-
-        [RelayCommand]
-        void RemoveAll()
-        {
-            if (CheckedItems.Count > 0)
-            {
-                CheckedItems.Clear();
-                CheckedListIsEmpty = true;
-                ShowRemoveAllBtn = false;
-            }
-        }
-
-        private void ShowHideLists()
-        {
-            bool containsItems = Items.Count.Equals(0);
-            NoItemsTextIsVisible = containsItems;
-            ItemsListIsVisible = !containsItems;
-
-            bool checkedItemsContainsItems = CheckedItems.Count > 0;
-            ShowRemoveAllBtn = checkedItemsContainsItems;
-            CheckedListIsEmpty = !checkedItemsContainsItems;
+            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={id}");
         }
     }
 }
