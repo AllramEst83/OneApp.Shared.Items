@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    [QueryProperty(nameof(ListId), nameof(ListId))]
+    //[QueryProperty(nameof(ListId), nameof(ListId))]
     public partial class ListViewModel : ObservableObject
     {
         IConnectivity connectivity;
@@ -35,14 +35,17 @@ namespace OneApp.Shared.Items.ViewModels
         {
             var data = new ObservableCollection<ListItemModel>() {
                 new ListItemModel() { ListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true },
-                new ListItemModel() { ListId = 2, ListItemName = "Gurka", ListItemId = 2 , IsChecked = true},
-                new ListItemModel() { ListId = 2, ListItemName = "Gurka", ListItemId = 3 , IsChecked = false},
-                new ListItemModel() { ListId = 4, ListItemName = "Gurka", ListItemId = 4 , IsChecked = false},
+                new ListItemModel() { ListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true},
+                new ListItemModel() { ListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false},
+                new ListItemModel() { ListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false},
             };
-
+            ListId = 2;
             //Database query
             var checkedItems = data.Where(x => x.ListId == ListId && x.IsChecked == false);
             var uncheckedItems = data.Where(x => x.ListId == ListId && x.IsChecked == true);
+
+            Items = new ObservableCollection<ListItemModel>();
+            CheckedItems = new ObservableCollection<ListItemModel>();
 
             foreach (var item in uncheckedItems)
             {
@@ -99,10 +102,10 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
-            var unCheckedItem = items.FirstOrDefault(x => x.ListItemId == checkedListItemId);
+            var unCheckedItem = Items.FirstOrDefault(x => x.ListItemId == checkedListItemId);
             if (unCheckedItem is not null)
             {
-                checkedItems.Add(unCheckedItem);
+                CheckedItems.Add(unCheckedItem);
                 Items.Remove(unCheckedItem);
 
                 ShowHideLists();
@@ -118,10 +121,10 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
-            var unCheckedItem = checkedItems.FirstOrDefault(x => x.ListItemId == uncheckedListItemId);
+            var unCheckedItem = CheckedItems.FirstOrDefault(x => x.ListItemId == uncheckedListItemId);
             if (unCheckedItem is not null)
             {
-                items.Add(unCheckedItem);
+                Items.Add(unCheckedItem);
                 CheckedItems.Remove(unCheckedItem);
 
                 //Save To DB

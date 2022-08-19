@@ -53,7 +53,7 @@
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListViewModel}}, Path=CheckCommand}"
                                            CommandParameter="{Binding ListItemId}"/>
                                 </Frame.GestureRecognizers>
-                                <Label Text="{Binding .}"
+                                <Label Text="{Binding ListItemName}"
                                        FontSize="18"/>
                             </Frame>
                         </Grid>
@@ -79,12 +79,12 @@
                         <Frame>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer 
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListItemModel}}, Path=UncheckCommand}"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListViewModel}}, Path=UncheckCommand}"
                                            CommandParameter="{Binding ListItemId}"/>
                             </Frame.GestureRecognizers>
 
                             <Label
-                        Text="{Binding .}"
+                        Text="{Binding ListItemName}"
                         TextDecorations="Strikethrough" 
                         FontSize="18"/>
                         </Frame>

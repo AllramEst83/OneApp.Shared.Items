@@ -51,7 +51,7 @@ namespace OneApp.Shared.Items.ViewModels
 
             //Check If list exists before routing
 
-            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={id}");
+            await Shell.Current.GoToAsync($"{nameof(ListPage)}");//?ListId={id}
         }
     }
     public partial class ListModel : ObservableObject
