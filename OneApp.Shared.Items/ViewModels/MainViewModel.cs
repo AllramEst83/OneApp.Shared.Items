@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-   
+
     public partial class MainViewModel : ObservableObject
     {
         IConnectivity connectivity;
@@ -16,7 +16,7 @@ namespace OneApp.Shared.Items.ViewModels
         {
             ListNames = new ObservableCollection<ListModel>()
             {
-                new ListModel(){ Id = 0, ListName = "Matlista"},
+                new ListModel(){ Id = 4, ListName = "Matlista"},
                 new ListModel(){ Id = 1, ListName = "Räkningar"},
                 new ListModel(){ Id = 2, ListName = "Att köpa idag"}
             };
@@ -40,19 +40,18 @@ namespace OneApp.Shared.Items.ViewModels
             });
         }
 
-        [RelayCommand]
-        async Task GoToList(int id)
-        {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
+            [RelayCommand]
+            async Task GoToList(int listId)
             {
-                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                return;
+                if (connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
+                    return;
+                }
+
+                //Check If list exists before routing
+                await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
             }
-
-            //Check If list exists before routing
-
-            await Shell.Current.GoToAsync($"{nameof(ListPage)}");//?ListId={id}
-        }
     }
     public partial class ListModel : ObservableObject
     {

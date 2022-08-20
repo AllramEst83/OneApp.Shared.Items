@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    //[QueryProperty(nameof(ListId), nameof(ListId))]
+    [QueryProperty("ListId", "ListId")]
     public partial class ListViewModel : ObservableObject
     {
         IConnectivity connectivity;
@@ -26,8 +26,10 @@ namespace OneApp.Shared.Items.ViewModels
 
         [ObservableProperty]
         bool itemsListIsVisible = false;
+
         [ObservableProperty]
         bool showRemoveAllBtn = false;
+
         [ObservableProperty]
         string text;
 
@@ -39,7 +41,7 @@ namespace OneApp.Shared.Items.ViewModels
                 new ListItemModel() { ListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
                 new ListItemModel() { ListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
             };
-            ListId = 2;
+
             //Database query
             var checkedItems = data.Where(x => x.ListId == ListId && x.IsChecked == false);
             var uncheckedItems = data.Where(x => x.ListId == ListId && x.IsChecked == true);
@@ -51,6 +53,7 @@ namespace OneApp.Shared.Items.ViewModels
             {
                 Items.Add(item);
             }
+
             foreach (var item in checkedItems)
             {
                 CheckedItems.Add(item);
@@ -73,10 +76,11 @@ namespace OneApp.Shared.Items.ViewModels
                 await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
                 return;
             }
-            ListItemModel listItemModel = new ListItemModel() { IsChecked = false, ListItemName = Text, ListId = ListId };
-            
+
+            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ListId = ListId };
+
             //Save to DB
-            
+
             Items.Add(listItemModel);
 
             Text = string.Empty;
@@ -161,16 +165,6 @@ namespace OneApp.Shared.Items.ViewModels
             CheckedListIsEmpty = !checkedItemsContainsItems;
         }
 
-    }
-
-    public class ListItemModelGroup : List<ListItemModel>
-    {
-        public string Category { get; set; }
-
-        public ListItemModelGroup(string category, List<ListItemModel> listItems) : base(listItems)
-        {
-            Category = category;
-        }
     }
 
     public partial class ListItemModel : ObservableObject
