@@ -36,8 +36,11 @@
                         IsVisible="{Binding ItemsListIsVisible}"
                         >
 
+            <!--UnCheckedItems-->
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodel:ListItemModel">
+
+                    <!--SwipeToDelete-->
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
@@ -47,7 +50,9 @@
                                            CommandParameter="{Binding .}"/>
                             </SwipeItems>
                         </SwipeView.RightItems>
+                        <!--SwipeToDelete-->
 
+                        <!--ItemNameWithTap-->
                         <Grid Padding="0,5">
                             <Frame>
                                 <Frame.GestureRecognizers>
@@ -59,15 +64,17 @@
                                        FontSize="18"/>
                             </Frame>
                         </Grid>
+                        <!--ListNameWithTap-->
                     </SwipeView>
                 </DataTemplate>
 
             </CollectionView.ItemTemplate>
-
         </CollectionView>
+        <!--UnCheckedItems-->
 
         <Line BackgroundColor="HotPink" Grid.Row="3" Grid.ColumnSpan="2"/>
 
+        <!--Checked Items-->
         <CollectionView ItemsSource="{Binding CheckedItems}"
                         SelectionMode="None"
                         Grid.ColumnSpan="2"
@@ -78,6 +85,7 @@
                     <Grid 
                         Padding="0,5"
                         x:DataType="viewmodel:ListItemModel">
+
                         <Frame>
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer 
@@ -85,19 +93,19 @@
                                            CommandParameter="{Binding ListItemId}"/>
                             </Frame.GestureRecognizers>
 
+                            <!--ItemName-->
                             <Label
                         Text="{Binding ListItemName}"
                         TextDecorations="Strikethrough" 
                         FontSize="18"/>
+                            <!--ItemName-->
                         </Frame>
-                    </Grid>
 
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
-
         </CollectionView>
-
+        <!--Checked Items-->
         <Label
                 FontSize="15"
                 IsVisible="{Binding CheckedListIsEmpty}"

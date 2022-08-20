@@ -40,18 +40,18 @@ namespace OneApp.Shared.Items.ViewModels
             });
         }
 
-            [RelayCommand]
-            async Task GoToList(int listId)
+        [RelayCommand]
+        async Task GoToList(int listId)
+        {
+            if (connectivity.NetworkAccess != NetworkAccess.Internet)
             {
-                if (connectivity.NetworkAccess != NetworkAccess.Internet)
-                {
-                    await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                    return;
-                }
-
-                //Check If list exists before routing
-                await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
+                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
+                return;
             }
+
+            //Check If list exists before routing
+            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
+        }
     }
     public partial class ListModel : ObservableObject
     {
