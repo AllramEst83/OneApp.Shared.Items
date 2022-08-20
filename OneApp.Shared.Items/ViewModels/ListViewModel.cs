@@ -4,13 +4,13 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    [QueryProperty(nameof(ParentListId), "ListId")]
+    [QueryProperty(nameof(ListId), nameof(ListId))]
     public partial class ListViewModel : ObservableObject
     {
         IConnectivity connectivity;
 
         [ObservableProperty]
-        int parentListId;
+        int listId;
 
         [ObservableProperty]
         ObservableCollection<ListItemModel> items;
@@ -43,8 +43,8 @@ namespace OneApp.Shared.Items.ViewModels
             };
 
             //Database query
-            var checkedItems = data.Where(x => x.ListId == parentListId && x.IsChecked == false);
-            var uncheckedItems = data.Where(x => x.ListId == parentListId && x.IsChecked == true);
+            var checkedItems = data.Where(x => x.ListId == ListId && x.IsChecked == false);
+            var uncheckedItems = data.Where(x => x.ListId == ListId && x.IsChecked == true);
 
             Items = new ObservableCollection<ListItemModel>();
             CheckedItems = new ObservableCollection<ListItemModel>();
@@ -77,7 +77,7 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
-            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ListId = parentListId };
+            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ListId = ListId };
 
             //Save to DB
 
