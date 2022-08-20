@@ -36,15 +36,15 @@ namespace OneApp.Shared.Items.ViewModels
         public ListViewModel(IConnectivity connectivity)
         {
             var data = new ObservableCollection<ListItemModel>() {
-                new ListItemModel() { ListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
-                new ListItemModel() { ListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
-                new ListItemModel() { ListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
-                new ListItemModel() { ListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
+                new ListItemModel() { ParentListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
+                new ListItemModel() { ParentListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
+                new ListItemModel() { ParentListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
+                new ListItemModel() { ParentListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
             };
 
             //Database query
-            var checkedItems = data.Where(x => x.ListId == ListId && x.IsChecked == false);
-            var uncheckedItems = data.Where(x => x.ListId == ListId && x.IsChecked == true);
+            var checkedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == false);
+            var uncheckedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == true);
 
             Items = new ObservableCollection<ListItemModel>();
             CheckedItems = new ObservableCollection<ListItemModel>();
@@ -77,7 +77,7 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
-            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ListId = ListId };
+            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ParentListId = ListId };
 
             //Save to DB
 
@@ -201,12 +201,12 @@ namespace OneApp.Shared.Items.ViewModels
             set => SetProperty(ref listItemName, value);
         }
 
-        private int listId;
+        private int parentListId;
 
-        public int ListId
+        public int ParentListId
         {
-            get => listId;
-            set => SetProperty(ref listId, value);
+            get => parentListId;
+            set => SetProperty(ref parentListId, value);
         }
     }
 }

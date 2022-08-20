@@ -35,12 +35,12 @@ namespace OneApp.Shared.Items.Models
             set => SetProperty(ref listItemName, value);
         }
 
-        private int listId;
+        private int parentListId;
 
-        public int ListId
+        public int ParentListId
         {
-            get => listId;
-            set => SetProperty(ref listId, value);
+            get => parentListId;
+            set => SetProperty(ref parentListId, value);
         }
     }
 }
