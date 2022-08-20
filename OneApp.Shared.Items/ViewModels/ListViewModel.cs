@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OneApp.Shared.Items.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
@@ -7,10 +8,18 @@ namespace OneApp.Shared.Items.ViewModels
     [QueryProperty(nameof(ListId), nameof(ListId))]
     public partial class ListViewModel : ObservableObject
     {
-        IConnectivity connectivity;
 
-        [ObservableProperty]
-        int listId;
+        private int listId;
+        public int ListId
+        {
+            get => listId;
+            set
+            {
+                SetProperty(ref listId, value);
+
+                InitiateLists();
+            }
+        }
 
         [ObservableProperty]
         ObservableCollection<ListItemModel> items;
@@ -33,35 +42,12 @@ namespace OneApp.Shared.Items.ViewModels
         [ObservableProperty]
         string text;
 
+        IConnectivity connectivity;
+
         public ListViewModel(IConnectivity connectivity)
         {
-            var data = new ObservableCollection<ListItemModel>() {
-                new ListItemModel() { ParentListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
-                new ListItemModel() { ParentListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
-                new ListItemModel() { ParentListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
-                new ListItemModel() { ParentListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
-            };
-
-            //Database query
-            var checkedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == false);
-            var uncheckedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == true);
-
-            Items = new ObservableCollection<ListItemModel>();
-            CheckedItems = new ObservableCollection<ListItemModel>();
-
-            foreach (var item in uncheckedItems)
-            {
-                Items.Add(item);
-            }
-
-            foreach (var item in checkedItems)
-            {
-                CheckedItems.Add(item);
-            }
             this.connectivity = connectivity;
-
-            ShowHideLists();
-        }
+        }       
 
         [RelayCommand]
         async Task Add()
@@ -112,6 +98,8 @@ namespace OneApp.Shared.Items.ViewModels
                 CheckedItems.Add(unCheckedItem);
                 Items.Remove(unCheckedItem);
 
+                //Save to DB
+
                 ShowHideLists();
             }
         }
@@ -151,6 +139,8 @@ namespace OneApp.Shared.Items.ViewModels
                 CheckedItems.Clear();
                 CheckedListIsEmpty = true;
                 ShowRemoveAllBtn = false;
+
+                //Saver to DB
             }
         }
 
@@ -165,7 +155,35 @@ namespace OneApp.Shared.Items.ViewModels
             CheckedListIsEmpty = !checkedItemsContainsItems;
         }
 
-    }
+        private void InitiateLists()
+        {
+            var data = new ObservableCollection<ListItemModel>() {
+                new ListItemModel() { ParentListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
+                new ListItemModel() { ParentListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
+                new ListItemModel() { ParentListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
+                new ListItemModel() { ParentListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
+            };
+
+            //Database query
+            var checkedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == false);
+            var uncheckedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == true);
+
+            Items = new ObservableCollection<ListItemModel>();
+            CheckedItems = new ObservableCollection<ListItemModel>();
+
+            foreach (var item in uncheckedItems)
+            {
+                Items.Add(item);
+            }
+
+            foreach (var item in checkedItems)
+            {
+                CheckedItems.Add(item);
+            }
+
+            ShowHideLists();
+        }
+    }   
 
     public partial class ListItemModel : ObservableObject
     {
