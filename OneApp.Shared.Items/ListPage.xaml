@@ -33,9 +33,11 @@
                         Grid.ColumnSpan="2"
                         ItemsSource="{Binding Items}"
                         SelectionMode="None"
-                        IsVisible="{Binding ItemsListIsVisible}">
+                        IsVisible="{Binding ItemsListIsVisible}"
+                        >
+
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="{x:Type x:String}">
+                <DataTemplate x:DataType="viewmodel:ListItemModel">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
@@ -46,7 +48,7 @@
                             </SwipeItems>
                         </SwipeView.RightItems>
 
-                        <Grid Padding="0,5"  x:DataType="viewmodel:ListItemModel">
+                        <Grid Padding="0,5">
                             <Frame>
                                 <Frame.GestureRecognizers>
                                     <TapGestureRecognizer 

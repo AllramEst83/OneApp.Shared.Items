@@ -9,6 +9,13 @@ namespace OneApp.Shared.Items.Models
 {
     public partial class ListItemModel : ObservableObject
     {
+        private bool category;
+
+        public bool Category
+        {
+            get => category;
+            set => SetProperty(ref category, value);
+        }
         private bool isChecked;
 
         public bool IsChecked

@@ -34,10 +34,10 @@ namespace OneApp.Shared.Items.ViewModels
         public ListViewModel(IConnectivity connectivity)
         {
             var data = new ObservableCollection<ListItemModel>() {
-                new ListItemModel() { ListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true },
-                new ListItemModel() { ListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true},
-                new ListItemModel() { ListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false},
-                new ListItemModel() { ListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false},
+                new ListItemModel() { ListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
+                new ListItemModel() { ListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
+                new ListItemModel() { ListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
+                new ListItemModel() { ListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
             };
             ListId = 2;
             //Database query
@@ -163,8 +163,26 @@ namespace OneApp.Shared.Items.ViewModels
 
     }
 
+    public class ListItemModelGroup : List<ListItemModel>
+    {
+        public string Category { get; set; }
+
+        public ListItemModelGroup(string category, List<ListItemModel> listItems) : base(listItems)
+        {
+            Category = category;
+        }
+    }
+
     public partial class ListItemModel : ObservableObject
     {
+        private string category;
+
+        public string Category
+        {
+            get => category;
+            set => SetProperty(ref category, value);
+        }
+
         private bool isChecked;
 
         public bool IsChecked
