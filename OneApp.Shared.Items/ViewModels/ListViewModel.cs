@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OneApp.Shared.Items.Helpers;
 using OneApp.Shared.Items.Interfaces;
 using System.Collections.ObjectModel;
 
@@ -9,17 +10,22 @@ namespace OneApp.Shared.Items.ViewModels
     public partial class ListViewModel : ObservableObject
     {
 
-        private int listId;
-        public int ListId
+        private string listId;
+        public string ListId
         {
             get => listId;
             set
             {
                 SetProperty(ref listId, value);
 
-                InitiateLists();
+                parentListGuid = ConvertHelpers.ConvertToGuid(ListId);
+
+                InitiateList();
             }
         }
+
+        [ObservableProperty]
+        Guid parentListGuid;
 
         [ObservableProperty]
         ObservableCollection<ListItemModel> items;
@@ -43,11 +49,13 @@ namespace OneApp.Shared.Items.ViewModels
         string text;
 
         IConnectivity connectivity;
+        IListsItemService listsItemService;
 
-        public ListViewModel(IConnectivity connectivity)
+        public ListViewModel(IConnectivity connectivity, IListsItemService listsItemService)
         {
             this.connectivity = connectivity;
-        }       
+            this.listsItemService = listsItemService;
+        }
 
         [RelayCommand]
         async Task Add()
@@ -57,15 +65,11 @@ namespace OneApp.Shared.Items.ViewModels
                 return;
             }
 
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                return;
-            }
+            await CheckConnectivity();
 
-            ListItemModel listItemModel = new() { IsChecked = false, ListItemName = Text, ParentListId = ListId };
+            ListItemModel listItemModel = new() { ListItemId = Guid.NewGuid(), IsChecked = false, ListItemName = Text, ParentListId = parentListGuid };
 
-            //Save to DB
+            listsItemService.SaveListItem(listItemModel);
 
             Items.Add(listItemModel);
 
@@ -84,63 +88,49 @@ namespace OneApp.Shared.Items.ViewModels
         }
 
         [RelayCommand]
-        async Task Check(int checkedListItemId)
+        async Task Check(Guid checkedListItemId)
         {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                return;
-            }
+            await CheckConnectivity();
 
-            var unCheckedItem = Items.FirstOrDefault(x => x.ListItemId == checkedListItemId);
+            ListItemModel unCheckedItem = Items.FirstOrDefault(x => x.ListItemId == checkedListItemId);
             if (unCheckedItem is not null)
             {
+                listsItemService.CheckOrUnCheckItem(unCheckedItem.ListItemId, true);
+
                 CheckedItems.Add(unCheckedItem);
                 Items.Remove(unCheckedItem);
 
-                //Save to DB
-
                 ShowHideLists();
             }
         }
 
         [RelayCommand]
-        async Task Uncheck(int uncheckedListItemId)
+        async Task Uncheck(Guid uncheckedListItemId)
         {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                return;
-            }
+            await CheckConnectivity();
 
-            var unCheckedItem = CheckedItems.FirstOrDefault(x => x.ListItemId == uncheckedListItemId);
+            ListItemModel unCheckedItem = CheckedItems.FirstOrDefault(x => x.ListItemId == uncheckedListItemId);
             if (unCheckedItem is not null)
             {
+                listsItemService.CheckOrUnCheckItem(unCheckedItem.ListItemId, false);
                 Items.Add(unCheckedItem);
                 CheckedItems.Remove(unCheckedItem);
 
-                //Save To DB
-
                 ShowHideLists();
             }
         }
 
         [RelayCommand]
-        async Task RemoveAll()
+        async Task RemoveAllCheck()
         {
-            if (connectivity.NetworkAccess != NetworkAccess.Internet)
-            {
-                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
-                return;
-            }
+            await CheckConnectivity();
 
             if (CheckedItems.Count > 0)
             {
+                listsItemService.RemoveAllCheckedItems();
                 CheckedItems.Clear();
                 CheckedListIsEmpty = true;
                 ShowRemoveAllBtn = false;
-
-                //Saver to DB
             }
         }
 
@@ -155,18 +145,20 @@ namespace OneApp.Shared.Items.ViewModels
             CheckedListIsEmpty = !checkedItemsContainsItems;
         }
 
-        private void InitiateLists()
+        private async Task CheckConnectivity()
         {
-            var data = new ObservableCollection<ListItemModel>() {
-                new ListItemModel() { ParentListId = 1, ListItemName = "Gurka", ListItemId = 1, IsChecked = true , Category = "Grönsaker"},
-                new ListItemModel() { ParentListId = 2, ListItemName = "Sallad", ListItemId = 2 , IsChecked = true, Category = "Grönsaker"},
-                new ListItemModel() { ParentListId = 2, ListItemName = "Tomater", ListItemId = 3 , IsChecked = false, Category = "Röda grejer"},
-                new ListItemModel() { ParentListId = 4, ListItemName = "Pasta", ListItemId = 4 , IsChecked = false, Category = "Kolhydrater"},
-            };
+            if (connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
+                return;
+            }
+        }
+        private void InitiateList()
+        {
+            List<ListItemModel> data = listsItemService.GetListById(parentListGuid);
 
-            //Database query
-            var checkedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == false);
-            var uncheckedItems = data.Where(x => x.ParentListId == ListId && x.IsChecked == true);
+            IEnumerable<ListItemModel> checkedItems = data.Where(x => x.ParentListId == parentListGuid && x.IsChecked == true);
+            IEnumerable<ListItemModel> uncheckedItems = data.Where(x => x.ParentListId == parentListGuid && x.IsChecked == false);
 
             Items = new ObservableCollection<ListItemModel>();
             CheckedItems = new ObservableCollection<ListItemModel>();
@@ -183,7 +175,7 @@ namespace OneApp.Shared.Items.ViewModels
 
             ShowHideLists();
         }
-    }   
+    }
 
     public partial class ListItemModel : ObservableObject
     {
@@ -203,9 +195,9 @@ namespace OneApp.Shared.Items.ViewModels
             set => SetProperty(ref isChecked, value);
         }
 
-        private int listItemId;
+        private Guid listItemId;
 
-        public int ListItemId
+        public Guid ListItemId
         {
             get => listItemId;
             set => SetProperty(ref listItemId, value);
@@ -219,9 +211,9 @@ namespace OneApp.Shared.Items.ViewModels
             set => SetProperty(ref listItemName, value);
         }
 
-        private int parentListId;
+        private Guid parentListId;
 
-        public int ParentListId
+        public Guid ParentListId
         {
             get => parentListId;
             set => SetProperty(ref parentListId, value);

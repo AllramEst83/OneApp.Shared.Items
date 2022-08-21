@@ -4,9 +4,9 @@ namespace OneApp.Shared.Items.Models
 {
     public partial class ListModel : ObservableObject
     {
-        private int id;
+        private Guid id;
 
-        public int Id
+        public Guid Id
         {
             get => id;
             set => SetProperty(ref id, value);

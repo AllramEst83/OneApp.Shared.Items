@@ -115,7 +115,7 @@
                 Grid.ColumnSpan="2"/>
 
         <Button Text="Remove all checked items"
-                Command="{Binding RemoveAllCommand}"
+                Command="{Binding RemoveAllCheckCommand}"
                 Grid.Row="6"
                 HorizontalOptions="Center"
                 Grid.ColumnSpan="2"

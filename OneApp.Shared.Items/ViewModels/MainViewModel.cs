@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using OneApp.Shared.Items.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
@@ -8,56 +9,67 @@ namespace OneApp.Shared.Items.ViewModels
     public partial class MainViewModel : ObservableObject
     {
         IConnectivity connectivity;
+        IParentListService parentListService;
 
         [ObservableProperty]
         ObservableCollection<ListModel> listNames;
 
-        public MainViewModel(IConnectivity connectivity)
+        public MainViewModel(IConnectivity connectivity, IParentListService parentListService)
         {
-            ListNames = new ObservableCollection<ListModel>()
-            {
-                new ListModel(){ Id = 4, ListName = "Matlista"},
-                new ListModel(){ Id = 1, ListName = "Räkningar"},
-                new ListModel(){ Id = 2, ListName = "Att köpa idag"}
-            };
+            this.parentListService = parentListService;
             this.connectivity = connectivity;
+            ListNames = new ObservableCollection<ListModel>();
+            var parentLists = parentListService.GetParentLists();
+            foreach (var item in parentLists)
+            {
+                ListNames.Add(item);
+            }
         }
 
         [RelayCommand]
         async Task AddNewList()
         {
+            await CheckConnectivity();
+
             string newListName = await Shell.Current.DisplayPromptAsync("List name", "Add list name");
             if (string.IsNullOrWhiteSpace(newListName))
             {
                 return;
             }
-
-            //Save to DB
-
-            ListNames.Add(new ListModel()
+            ListModel newList = new ListModel()
             {
+                Id = Guid.NewGuid(),
                 ListName = newListName
-            });
+            };
+
+            parentListService.SaveParentList(newList);
+
+            ListNames.Add(newList);
         }
 
         [RelayCommand]
-        async Task GoToList(int listId)
+        async Task GoToList(Guid listId)
+        {
+            await CheckConnectivity();
+
+            //Check If list exists before routing
+            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
+        }
+
+        private async Task CheckConnectivity()
         {
             if (connectivity.NetworkAccess != NetworkAccess.Internet)
             {
                 await Shell.Current.DisplayAlert("Uh Oh!", "No Internet", "OK");
                 return;
             }
-
-            //Check If list exists before routing
-            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
         }
     }
     public partial class ListModel : ObservableObject
     {
-        private int id;
+        private Guid id;
 
-        public int Id
+        public Guid Id
         {
             get => id;
             set => SetProperty(ref id, value);
