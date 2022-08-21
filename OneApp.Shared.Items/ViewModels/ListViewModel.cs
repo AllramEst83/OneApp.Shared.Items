@@ -2,13 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using OneApp.Shared.Items.Helpers;
 using OneApp.Shared.Items.Interfaces;
-using OneApp.Shared.Items.Services;
 using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    [QueryProperty(nameof(ParentListName), nameof(ParentListName))]
     [QueryProperty(nameof(ListId), nameof(ListId))]
+    [QueryProperty(nameof(ParentListName), nameof(ParentListName))]
     public partial class ListViewModel : ObservableObject
     {
 
@@ -182,47 +181,5 @@ namespace OneApp.Shared.Items.ViewModels
             ShowHideLists();
         }
     }
-
-    public partial class ListItemModel : ObservableObject
-    {
-        private string category;
-
-        public string Category
-        {
-            get => category;
-            set => SetProperty(ref category, value);
-        }
-
-        private bool isChecked;
-
-        public bool IsChecked
-        {
-            get => isChecked;
-            set => SetProperty(ref isChecked, value);
-        }
-
-        private Guid listItemId;
-
-        public Guid ListItemId
-        {
-            get => listItemId;
-            set => SetProperty(ref listItemId, value);
-        }
-
-        private string listItemName;
-
-        public string ListItemName
-        {
-            get => listItemName;
-            set => SetProperty(ref listItemName, value);
-        }
-
-        private Guid parentListId;
-
-        public Guid ParentListId
-        {
-            get => parentListId;
-            set => SetProperty(ref parentListId, value);
-        }
-    }
+    
 }

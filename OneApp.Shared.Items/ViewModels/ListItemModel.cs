@@ -1,16 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace OneApp.Shared.Items.Models
+namespace OneApp.Shared.Items.ViewModels
 {
     public partial class ListItemModel : ObservableObject
     {
-        private bool category;
+        private string category;
 
-        public bool Category
+        public string Category
         {
             get => category;
             set => SetProperty(ref category, value);
         }
+
         private bool isChecked;
 
         public bool IsChecked
@@ -19,9 +20,9 @@ namespace OneApp.Shared.Items.Models
             set => SetProperty(ref isChecked, value);
         }
 
-        private int listItemId;
+        private Guid listItemId;
 
-        public int ListItemId
+        public Guid ListItemId
         {
             get => listItemId;
             set => SetProperty(ref listItemId, value);
@@ -35,9 +36,9 @@ namespace OneApp.Shared.Items.Models
             set => SetProperty(ref listItemName, value);
         }
 
-        private int parentListId;
+        private Guid parentListId;
 
-        public int ParentListId
+        public Guid ParentListId
         {
             get => parentListId;
             set => SetProperty(ref parentListId, value);

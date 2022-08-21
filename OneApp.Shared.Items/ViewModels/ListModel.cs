@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace OneApp.Shared.Items.Models
+namespace OneApp.Shared.Items.ViewModels
 {
     public partial class ListModel : ObservableObject
     {

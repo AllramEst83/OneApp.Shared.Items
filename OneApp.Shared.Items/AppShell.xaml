@@ -7,7 +7,7 @@
     Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Shared items"
+        Title="Shared shopping items"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
