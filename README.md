@@ -14,6 +14,7 @@
   - Theme Editor (Spara valen)
   - En lista med listor (CRUD)
   - Lägg till bild på varan
+  - Add logging
 
 Bildlicenser:
 https://creativecommons.org/licenses/
