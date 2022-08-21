@@ -48,12 +48,12 @@ namespace OneApp.Shared.Items.ViewModels
         }
 
         [RelayCommand]
-        async Task GoToList(Guid listId)
+        async Task GoToList(ListModel listModel)
         {
             await CheckConnectivity();
 
             //Check If list exists before routing
-            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listId}");
+            await Shell.Current.GoToAsync($"{nameof(ListPage)}?ListId={listModel.Id}&ParentListName={listModel.ListName}");
         }
 
         private async Task CheckConnectivity()

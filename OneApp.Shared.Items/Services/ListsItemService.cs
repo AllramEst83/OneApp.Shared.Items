@@ -51,6 +51,18 @@ namespace OneApp.Shared.Items.Services
             }
         }
 
+        public void DeleteListItemById(Guid listItemId)
+        {
+            string filePath = FileHelper.GetFilePath(fileName);
+            List<ListItemModel> data = listItemRepository.GetListItems(filePath);
+            if (data is not null)
+            {
+                data.RemoveAll(x => x.ListItemId == listItemId);
+
+                listItemRepository.SaveItemList(filePath, data);
+            }
+        }
+
         public void SaveListItem(ListItemModel listItem)
         {
             if (listItem is not null)

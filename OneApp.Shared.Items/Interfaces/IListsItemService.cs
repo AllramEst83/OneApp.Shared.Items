@@ -13,5 +13,6 @@ namespace OneApp.Shared.Items.Interfaces
         List<ListItemModel> GetListById(Guid listId);
         void RemoveAllCheckedItems(Guid parentListGuid);
         void CheckOrUnCheckItem(Guid itemId, bool checkValue);
+        void DeleteListItemById(Guid listItemId);
     }
 }

@@ -4,32 +4,8 @@
              x:Class="OneApp.Shared.Items.MainPage"
              xmlns:viewmodel="clr-namespace:OneApp.Shared.Items.ViewModels"
              x:DataType="viewmodel:MainViewModel"
-             Title="Home">
-
-
-
-    <!--<CollectionView
-        x:Name="CollectionOfListNames"
-        ItemsSource="{Binding ListNames}">
-
-        <CollectionView.ItemTemplate>
-
-            <DataTemplate>
-                <Grid 
-                    x:DataType="viewmodel:ListModel"   
-                    ColumnDefinitions="Auto, Auto"  
-                    Padding="10"  
-                    RowSpacing="1"
-                    ColumnSpacing="10">
-
-                    <Label IsVisible="False" FontSize="15" Grid.Column="0" Text="{Binding Id}" />
-                    <Label  FontSize="15" Grid.Column="1" Text="{Binding ListName}" />
-                </Grid>
-            </DataTemplate>
-
-        </CollectionView.ItemTemplate>
-
-    </CollectionView>-->
+             Title="Shared lists">
+    
     <Grid 
         RowDefinitions="Auto, Auto, Auto, Auto">
         
@@ -46,15 +22,18 @@
                         x:DataType="viewmodel:ListModel"    
                         Padding="10"  
                         RowSpacing="1"
-                        ColumnSpacing="10">
+                        ColumnSpacing="10"
+                        ColumnDefinitions=".50*,.50*"
+                        RowDefinitions="Auto, Auto">
 
-                            <Label FontSize="15" Text="{Binding ListName}" >
+                            <Label FontSize="15" Text="{Binding ListName}" Grid.Column="0">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListCommand}"
-                                        CommandParameter="{Binding Id}"/>
+                                        CommandParameter="{Binding .}"/>
                                 </Label.GestureRecognizers>
                             </Label>
+                            <Label Grid.Column="1" Text="Config" HorizontalOptions="End"/> 
                         </Grid>
                     </ViewCell>
 

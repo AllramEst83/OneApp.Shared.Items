@@ -2,10 +2,12 @@
 using CommunityToolkit.Mvvm.Input;
 using OneApp.Shared.Items.Helpers;
 using OneApp.Shared.Items.Interfaces;
+using OneApp.Shared.Items.Services;
 using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
+    [QueryProperty(nameof(ParentListName), nameof(ParentListName))]
     [QueryProperty(nameof(ListId), nameof(ListId))]
     public partial class ListViewModel : ObservableObject
     {
@@ -47,6 +49,8 @@ namespace OneApp.Shared.Items.ViewModels
 
         [ObservableProperty]
         string text;
+        [ObservableProperty]
+        string parentListName;
 
         IConnectivity connectivity;
         IListsItemService listsItemService;
@@ -79,10 +83,12 @@ namespace OneApp.Shared.Items.ViewModels
         }
 
         [RelayCommand]
-        void Delete(ListItemModel item)
+        void DeleteListItem(ListItemModel item)
         {
             if (Items.Contains(item))
             {
+                listsItemService.DeleteListItemById(item.ListItemId);
+
                 Items.Remove(item);
             }
         }
