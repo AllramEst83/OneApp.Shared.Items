@@ -127,7 +127,7 @@ namespace OneApp.Shared.Items.ViewModels
 
             if (CheckedItems.Count > 0)
             {
-                listsItemService.RemoveAllCheckedItems();
+                listsItemService.RemoveAllCheckedItems(parentListGuid);
                 CheckedItems.Clear();
                 CheckedListIsEmpty = true;
                 ShowRemoveAllBtn = false;

@@ -23,12 +23,12 @@ namespace OneApp.Shared.Items.Services
             return listToReturn;
         }
 
-        public void RemoveAllCheckedItems()
+        public void RemoveAllCheckedItems(Guid parentListGuid)
         {
             string filePath = FileHelper.GetFilePath(fileName);
             List<ListItemModel> data = listItemRepository.GetListItems(filePath);
 
-            data.RemoveAll(x => x.IsChecked = true);
+            data.RemoveAll(x => x.ParentListId == parentListGuid && x.IsChecked == true);
             listItemRepository.SaveItemList(filePath, data);
         }
 
