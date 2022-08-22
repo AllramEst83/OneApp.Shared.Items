@@ -27,3 +27,6 @@ https://stackoverflow.com/a/73301982/6804444
 
 Securitas Storage:
 https://docs.microsoft.com/en-us/dotnet/maui/platform-integration/storage/secure-storage?tabs=android
+
+- CommunityToolkit.Mvvm
+- CommunityToolkit.Maui
