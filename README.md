@@ -16,6 +16,11 @@
   - Lägg till bild på varan
   - Add logging
 
+Views to checkout:
+- ListView
+- BoxView
+- ScrollView
+
 Bildlicenser:
 https://creativecommons.org/licenses/
 
