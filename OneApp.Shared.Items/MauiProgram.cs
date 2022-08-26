@@ -36,6 +36,9 @@ public static class MauiProgram
         builder.Services.AddTransient<ListInfoPage>();
         builder.Services.AddTransient<ListInfoViewmodel>();
 
+		builder.Services.AddTransient<EditListItemPage>();
+		builder.Services.AddTransient<EditListItemViewModel>();
+
 
 
 

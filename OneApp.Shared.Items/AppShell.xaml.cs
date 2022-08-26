@@ -1,4 +1,5 @@
-﻿using OneApp.Shared.Items.Views;
+﻿
+using OneApp.Shared.Items.Views;
 
 namespace OneApp.Shared.Items;
 
@@ -11,5 +12,6 @@ public partial class AppShell : Shell
         Routing.RegisterRoute(nameof(MainPage),typeof(MainPage));
         Routing.RegisterRoute(nameof(ListPage), typeof(ListPage));
         Routing.RegisterRoute(nameof(ListInfoPage), typeof(ListInfoPage));
+        Routing.RegisterRoute(nameof(EditListItemPage), typeof(EditListItemPage));
     }
 }

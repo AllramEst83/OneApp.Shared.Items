@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:OneApp.Shared.Items"
     Shell.FlyoutBehavior="Disabled"
-    BackgroundColor="{StaticResource NavBarBackground}}">
+    BackgroundColor="{StaticResource NavBarBackground}">
 
     <ShellContent
         Title="Shared shopping items"

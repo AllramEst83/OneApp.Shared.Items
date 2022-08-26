@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
 {
-    [QueryProperty("ReloadData", "ReloadData")]
+    [QueryProperty(nameof(ReloadData), nameof(ReloadData))]
     public partial class MainViewModel : ObservableObject
     {
         private bool reloadData;

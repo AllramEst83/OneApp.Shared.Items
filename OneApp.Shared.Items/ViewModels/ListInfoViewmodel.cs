@@ -8,8 +8,8 @@ namespace OneApp.Shared.Items.ViewModels
     public partial class ListInfoViewmodel : ObservableObject
     {
         [ObservableProperty]
-
         ListModel list;
+
         [ObservableProperty]
         string newListName;
 

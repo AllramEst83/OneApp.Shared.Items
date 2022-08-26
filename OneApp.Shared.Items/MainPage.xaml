@@ -40,7 +40,7 @@
                                 WidthRequest="30"                                
                                 HorizontalOptions="FillAndExpand"
                                 Aspect="AspectFill">
-Image
+
                                 <Image.GestureRecognizers>
 
                                     <TapGestureRecognizer 

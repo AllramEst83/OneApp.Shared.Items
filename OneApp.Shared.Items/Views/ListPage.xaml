@@ -15,7 +15,8 @@
 
         <Entry Placeholder="Enter stuff to buy :)"
                Text="{Binding Text}"
-                Grid.Column="0"/>
+               FontSize="18"
+               Grid.Column="0"/>
 
         <Button Text="Add"
                 Command="{Binding AddCommand}"
@@ -39,33 +40,43 @@
             <!--UnCheckedItems-->
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="viewmodel:ListItemModel">
+                    <Frame BorderColor="DodgerBlue">
+                        <Grid 
+                            ColumnDefinitions=".50*, .10*"
+                            RowDefinitions="Auto">
+                                                       
 
-                    <!--SwipeToDelete-->
-                    <SwipeView>
-                        <SwipeView.RightItems>
-                            <SwipeItems>
-                                <SwipeItem Text="Delete"
-                                           BackgroundColor="Red"                                           
-                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListViewModel}}, Path=DeleteListItemCommand}"
-                                           CommandParameter="{Binding .}"/>
-                            </SwipeItems>
-                        </SwipeView.RightItems>
-                        <!--SwipeToDelete-->
+                            <Label Text="{Binding ListItemName}"
+                                   FontSize="18"
+                                   Grid.Column="0"
+                                   Grid.Row="0">                                       
 
-                        <!--ItemNameWithTap-->
-                        <Grid Padding="0,5">
-                            <Frame>
-                                <Frame.GestureRecognizers>
+                                <Label.GestureRecognizers>
                                     <TapGestureRecognizer 
                                            Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListViewModel}}, Path=CheckCommand}"
                                            CommandParameter="{Binding ListItemId}"/>
-                                </Frame.GestureRecognizers>
-                                <Label Text="{Binding ListItemName}"
-                                       FontSize="18"/>
-                            </Frame>
+                                </Label.GestureRecognizers>
+                            </Label>
+
+
+                            <Image
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Source="edit.svg"
+                                HeightRequest="30"
+                                WidthRequest="30"                                
+                                HorizontalOptions="FillAndExpand"
+                                Aspect="AspectFill">
+
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListViewModel}},Path=EditListItemCommand}"
+                                        CommandParameter="{Binding ListItemId}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
                         </Grid>
-                        <!--ListNameWithTap-->
-                    </SwipeView>
+
+                    </Frame>
                 </DataTemplate>
 
             </CollectionView.ItemTemplate>

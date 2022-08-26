@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using OneApp.Shared.Items.Helpers;
 using OneApp.Shared.Items.Interfaces;
+using OneApp.Shared.Items.Views;
 using System.Collections.ObjectModel;
 
 namespace OneApp.Shared.Items.ViewModels
@@ -82,8 +83,18 @@ namespace OneApp.Shared.Items.ViewModels
         }
 
         [RelayCommand]
-        void DeleteListItem(ListItemModel item)
+        public async Task EditListItem(Guid listItemsId)
         {
+            await CheckConnectivity();
+
+            await Shell.Current.GoToAsync($"{nameof(EditListItemPage)}?ListItemId={listItemsId}");
+        }
+
+        [RelayCommand]
+        public async Task DeleteListItem(ListItemModel item)
+        {
+            await CheckConnectivity();
+
             if (Items.Contains(item))
             {
                 listsItemService.DeleteListItemById(item.ListItemId);
@@ -181,5 +192,5 @@ namespace OneApp.Shared.Items.ViewModels
             ShowHideLists();
         }
     }
-    
+
 }
