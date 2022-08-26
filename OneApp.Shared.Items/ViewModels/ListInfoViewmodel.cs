@@ -1,12 +1,6 @@
-﻿using Android.Content.Res;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using OneApp.Shared.Items.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace OneApp.Shared.Items.ViewModels
 {
@@ -20,10 +14,12 @@ namespace OneApp.Shared.Items.ViewModels
         string newListName;
 
         IParentListService parentListService;
+        IListsItemService listsItemService;
 
-        public ListInfoViewmodel(IParentListService parentListService)
+        public ListInfoViewmodel(IParentListService parentListService, IListsItemService listsItemService)
         {
             this.parentListService = parentListService;
+            this.listsItemService = listsItemService;
         }
 
         [RelayCommand]
@@ -37,6 +33,16 @@ namespace OneApp.Shared.Items.ViewModels
             parentListService.UpdateParentList(listId, newListName);
 
             NewListName = string.Empty;
+
+            await Shell.Current.GoToAsync($"//{nameof(MainPage)}?ReloadData=true");
+        }
+
+        [RelayCommand]
+        public async Task DeleteList(Guid listId)
+        {
+            listsItemService.DeleteListItemsByParentId(listId);
+
+            parentListService.DeleteParentList(listId);
 
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}?ReloadData=true");
         }

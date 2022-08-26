@@ -9,7 +9,7 @@
     <Grid 
         RowDefinitions="Auto, Auto, Auto">
 
-        <ListView ItemsSource="{Binding ListNames}" Grid.Row="0" >
+        <ListView ItemsSource="{Binding ListNames}" Grid.Row="0">
             <ListView.ItemTemplate>
 
                 <DataTemplate>
@@ -20,17 +20,36 @@
                         Padding="10"  
                         RowSpacing="1"
                         ColumnSpacing="10"
-                        ColumnDefinitions=".50*,.50*"
+                        ColumnDefinitions=".90*,.10*"
                         RowDefinitions="Auto, Auto">
 
-                            <Label FontSize="15" Text="{Binding ListName}" Grid.Column="0">
+                            <Label FontSize="18" Text="{Binding ListName}" Grid.Row="0" Grid.Column="0">
                                 <Label.GestureRecognizers>
                                     <TapGestureRecognizer 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListCommand}"
                                         CommandParameter="{Binding .}"/>
                                 </Label.GestureRecognizers>
                             </Label>
-                            <Label Grid.Column="1" Text="Config" HorizontalOptions="End">
+
+
+                            <Image 
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Source="appsettings.svg"
+                                HeightRequest="30"
+                                WidthRequest="30"                                
+                                HorizontalOptions="FillAndExpand"
+                                Aspect="AspectFill">
+Image
+                                <Image.GestureRecognizers>
+
+                                    <TapGestureRecognizer 
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListInfoCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Image.GestureRecognizers>
+                            </Image>
+
+                            <!--<Label Grid.Column="1" Text="Config" HorizontalOptions="End">
 
                                 <Label.GestureRecognizers>
 
@@ -38,7 +57,7 @@
                                          Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListInfoCommand}"
                                         CommandParameter="{Binding .}"/>
                                 </Label.GestureRecognizers>
-                            </Label>
+                            </Label>-->
                         </Grid>
                     </ViewCell>
 
@@ -60,14 +79,26 @@
                           Offset="1.0" />
                 </LinearGradientBrush>
             </Line.Background>
-        </Line>
+        </Line>      
 
-        <Label Padding="10,10" Grid.Row="2" Text="Add Shopping list" FontSize="18" BackgroundColor="LightGrey">
+        <Label Padding="10,10" Grid.Row="2" Text="Add Shopping list" FontSize="18">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding AddNewListCommand}">
 
                 </TapGestureRecognizer>
             </Label.GestureRecognizers>
+
+            <Label.Background>
+                <!-- StartPoint defaults to (0,0) -->
+                <LinearGradientBrush EndPoint="1,0">
+                    <GradientStop Color="{DynamicResource AddListGradientOne}"
+                          Offset="0.3" />
+                    <GradientStop Color="{DynamicResource AddListGradientTwo}"
+                          Offset="0.7" />
+                    <GradientStop Color="{DynamicResource AddListGradientThree}"
+                          Offset="1.0" />
+                </LinearGradientBrush>
+            </Label.Background>
         </Label>
     </Grid>
 

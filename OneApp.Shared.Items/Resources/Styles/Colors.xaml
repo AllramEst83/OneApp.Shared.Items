@@ -10,6 +10,13 @@
     <Color x:Key="DividerGradientOne">#4FC3F7</Color>
     <Color x:Key="DividerGradientTwo">#AED581</Color>
     <Color x:Key="DividerGradientThree">#FFF176</Color>
+
+    <Color x:Key="AddListGradientOne">#D33F96</Color>
+    <Color x:Key="AddListGradientTwo">#96D33F</Color>
+    <Color x:Key="AddListGradientThree">#3F96D3</Color>
+
+    <Color x:Key="DeleteListButton">#EA3542</Color>
+
     <Color x:Key="NavBarBackground">#E590EF</Color>
 </ResourceDictionary>
 

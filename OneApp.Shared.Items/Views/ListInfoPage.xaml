@@ -7,10 +7,9 @@
              x:DataType="viewmodel:ListInfoViewmodel">
 
     <StackLayout Margin="10">
-
-
+        
         <Label 
-            Text="List:"
+            Text="New name:"
             FontSize="21"
             FontAttributes="Bold"
             HorizontalOptions="StartAndExpand"
@@ -18,14 +17,21 @@
 
         <Entry 
             FontSize="20"
-            Placeholder="Change list name"
+            Placeholder="Enter list name"
             Text="{Binding NewListName}" 
             HorizontalOptions="FillAndExpand"/>
-
+        
         <Button Text="Save"
                 Command="{Binding UpdateListCommand}"
                 CommandParameter="{Binding List.Id}"
-                 HorizontalOptions="End"
-                 VerticalOptions="CenterAndExpand"/>
+                 HorizontalOptions="FillAndExpand"
+                Margin="10,10,10,10"/>
+
+        <Button Text="Delete"
+                Command="{Binding DeleteListCommand}"
+                CommandParameter="{Binding List.Id}"
+                 HorizontalOptions="FillAndExpand"
+                 Margin="10,10,10,10"
+                BackgroundColor="{DynamicResource DeleteListButton}"/>
     </StackLayout>
 </ContentPage>
