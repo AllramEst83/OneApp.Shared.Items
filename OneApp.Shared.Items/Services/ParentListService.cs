@@ -34,5 +34,19 @@ namespace OneApp.Shared.Items.Services
             string filePath = FileHelper.GetFilePath(fileName);
             parentListRepository.SaveParentList(filePath, parenList);
         }
+
+        public void UpdateParentList(Guid parentListId, string parentListName)
+        {
+            string filePath = FileHelper.GetFilePath(fileName);
+            var listOfParentLists = parentListRepository.GetAllParentLists(filePath);
+
+            var parentList = listOfParentLists.FirstOrDefault(x => x.Id == parentListId);
+            if (parentList is not null)
+            {
+                parentList.ListName = parentListName;
+
+                parentListRepository.SaveListOfParentLists(filePath, listOfParentLists);
+            }
+        }
     }
 }

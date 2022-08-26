@@ -2,6 +2,7 @@
 using OneApp.Shared.Items.Repository;
 using OneApp.Shared.Items.Services;
 using OneApp.Shared.Items.ViewModels;
+using OneApp.Shared.Items.Views;
 
 namespace OneApp.Shared.Items;
 
@@ -32,10 +33,13 @@ public static class MauiProgram
 		builder.Services.AddTransient<ListPage>();
 		builder.Services.AddTransient<ListViewModel>();
 
-	
+        builder.Services.AddTransient<ListInfoPage>();
+        builder.Services.AddTransient<ListInfoViewmodel>();
 
 
 
-		return builder.Build();
+
+
+        return builder.Build();
 	}
 }

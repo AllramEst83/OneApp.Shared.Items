@@ -39,5 +39,11 @@ namespace OneApp.Shared.Items.Repository
             string dataToBeSaved = JsonSerializer.Serialize(existingData);
             File.WriteAllText(filePath, dataToBeSaved, Encoding.UTF8);
         }
+
+        public void SaveListOfParentLists(string filePath, List<ListModel> parentList)
+        {
+            string dataToBeSaved = JsonSerializer.Serialize(parentList);
+            File.WriteAllText(filePath, dataToBeSaved, Encoding.UTF8);
+        }
     }
 }

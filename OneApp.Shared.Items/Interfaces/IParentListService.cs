@@ -6,5 +6,6 @@ namespace OneApp.Shared.Items.Interfaces
     {
         List<ListModel> GetParentLists();
         void SaveParentList(ListModel parenList);
+        void UpdateParentList(Guid parentListId, string parentListName);
     }
 }

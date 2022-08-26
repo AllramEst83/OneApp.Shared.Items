@@ -1,12 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8" ?>
 <?xaml-comp compile="true" ?>
+
+
+<!--https://docs.microsoft.com/en-us/dotnet/maui/fundamentals/shell/pages-->
 <ResourceDictionary 
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
 
-    <Color x:Key="Primary">#512BD4</Color>
-    <Color x:Key="Secondary">#DFD8F7</Color>
-    <Color x:Key="Tertiary">#2B0B98</Color>
+    <Color x:Key="DividerGradientOne">#4FC3F7</Color>
+    <Color x:Key="DividerGradientTwo">#AED581</Color>
+    <Color x:Key="DividerGradientThree">#FFF176</Color>
+    <Color x:Key="NavBarBackground">#E590EF</Color>
+</ResourceDictionary>
+
+<!--<ResourceDictionary 
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Color x:Key="Primary">#D635B7</Color>
+    <Color x:Key="Secondary">#FFC3FD</Color>
+    <Color x:Key="Tertiary">#9F149B</Color>
     <Color x:Key="White">White</Color>
     <Color x:Key="Black">Black</Color>
     <Color x:Key="Gray100">#E1E1E1</Color>
@@ -41,4 +54,4 @@
     <Color x:Key="Blue200Accent">#72ACF1</Color>
     <Color x:Key="Blue300Accent">#A7CBF6</Color>
 
-</ResourceDictionary>
+</ResourceDictionary>-->

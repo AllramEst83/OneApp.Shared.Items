@@ -30,7 +30,15 @@
                                         CommandParameter="{Binding .}"/>
                                 </Label.GestureRecognizers>
                             </Label>
-                            <Label Grid.Column="1" Text="Config" HorizontalOptions="End"/> 
+                            <Label Grid.Column="1" Text="Config" HorizontalOptions="End">
+
+                                <Label.GestureRecognizers>
+
+                                    <TapGestureRecognizer
+                                         Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}},Path=GoToListInfoCommand}"
+                                        CommandParameter="{Binding .}"/>
+                                </Label.GestureRecognizers>
+                            </Label>
                         </Grid>
                     </ViewCell>
 
@@ -38,14 +46,27 @@
 
             </ListView.ItemTemplate>
         </ListView>
-        
-        <Line Grid.Row="1" Background="Black" />
+
+        <Line Grid.Row="1" MaximumHeightRequest="5" >
+
+            <Line.Background>
+                <!-- StartPoint defaults to (0,0) -->
+                <LinearGradientBrush EndPoint="1,0">
+                    <GradientStop Color="{DynamicResource DividerGradientOne}"
+                          Offset="0.3" />
+                    <GradientStop Color="{DynamicResource DividerGradientTwo}"
+                          Offset="0.7" />
+                    <GradientStop Color="{DynamicResource DividerGradientThree}"
+                          Offset="1.0" />
+                </LinearGradientBrush>
+            </Line.Background>
+        </Line>
 
         <Label Padding="10,10" Grid.Row="2" Text="Add Shopping list" FontSize="18" BackgroundColor="LightGrey">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding AddNewListCommand}">
-                    
-                </TapGestureRecognizer>                
+
+                </TapGestureRecognizer>
             </Label.GestureRecognizers>
         </Label>
     </Grid>

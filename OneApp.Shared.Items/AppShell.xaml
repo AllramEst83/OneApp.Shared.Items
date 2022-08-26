@@ -4,7 +4,8 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:OneApp.Shared.Items"
-    Shell.FlyoutBehavior="Disabled">
+    Shell.FlyoutBehavior="Disabled"
+    BackgroundColor="{StaticResource NavBarBackground}}">
 
     <ShellContent
         Title="Shared shopping items"
@@ -12,3 +13,6 @@
         Route="MainPage" />
 
 </Shell>
+
+
+<!--https://docs.microsoft.com/en-us/dotnet/maui/fundamentals/shell/pages-->

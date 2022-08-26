@@ -11,5 +11,6 @@ namespace OneApp.Shared.Items.Interfaces
     {
         List<ListModel> GetAllParentLists(string filePath);
         void SaveParentList(string filePath, ListModel newParentList);
+        void SaveListOfParentLists(string filePath, List<ListModel> parentList);
     }
 }
